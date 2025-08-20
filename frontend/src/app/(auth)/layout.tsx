@@ -8,15 +8,18 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         minHeight: "100dvh",
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+        backgroundImage: 'url("/images/auth-bg.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      {/* Kiri: Card untuk form */}
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           py: 6,
+          px: { xs: 2, md: 8 },
         }}
       >
         <Container maxWidth="sm">
@@ -25,16 +28,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           </Paper>
         </Container>
       </Box>
-
-      {/* Kanan: Background image (yang sudah kamu pasang) */}
-      <Box
-        sx={{
-          display: { xs: "none", md: "block" },
-          backgroundImage: 'url("/images/auth-bg.png")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      <Box />
     </Box>
   );
 }
