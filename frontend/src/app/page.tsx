@@ -3,12 +3,6 @@
 import * as React from "react";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 
-type FormState = {
-  name: string;
-  price: string;
-  qty: string;
-};
-
 export default function Page() {
   return (
     <>
