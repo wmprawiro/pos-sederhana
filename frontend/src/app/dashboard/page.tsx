@@ -32,9 +32,7 @@ function StatCard({
       elevation={0}
       sx={{
         p: 2.5,
-        border: "1px solid",
-        borderColor: "divider",
-        borderRadius: "10px",
+        borderRadius: "2",
       }}
     >
       <Typography sx={{ fontSize: 12, color: "text.secondary", mb: 1 }}>
@@ -136,8 +134,6 @@ export default function DashboardPage() {
         elevation={0}
         sx={{
           p: 2,
-          border: "1px solid",
-          borderColor: "divider",
           borderRadius: 2,
           height: 420,
         }}

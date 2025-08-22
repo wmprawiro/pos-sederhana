@@ -15,9 +15,18 @@ export default function AdminLayout({
   return (
     <Box sx={{ display: "flex", minHeight: "100dvh" }}>
       <Sidebar base="dashboard" />
-      <Box component="main" sx={{ flexGrow: 1, ml: `${SIDEBAR_WIDTH}px` }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          ml: `${SIDEBAR_WIDTH}px`,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100dvh",
+        }}
+      >
         <Topbar />
-        <Box sx={{ p: "20px" }}>{children}</Box>
+        <Box sx={{ p: "20px", bgcolor: "grey.100", flex: 1 }}>{children}</Box>
       </Box>
     </Box>
   );
