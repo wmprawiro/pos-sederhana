@@ -6,7 +6,6 @@ import {
   Box,
   Stack,
   Avatar,
-  IconButton,
   Tooltip,
   List,
   ListItemButton,
@@ -17,45 +16,76 @@ import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 type NavKey = "dashboard" | "catalog" | "sales" | "settings";
+type Base = "dashboard" | "cashier";
 
-const items: {
-  key: NavKey;
-  label: string;
-  href: string;
-  icon: React.ElementType;
-}[] = [
-  {
-    key: "dashboard",
-    label: "Dashboard",
-    href: "/dashboard",
-    icon: GridViewOutlinedIcon,
-  },
-  {
-    key: "catalog",
-    label: "Catalog",
-    href: "/catalog",
-    icon: Inventory2OutlinedIcon,
-  },
-  {
-    key: "sales",
-    label: "Sales Report",
-    href: "/sales-report",
-    icon: ReceiptLongOutlinedIcon,
-  },
-  {
-    key: "settings",
-    label: "Settings",
-    href: "/settings",
-    icon: SettingsOutlinedIcon,
-  },
-];
+const config: Record<
+  Base,
+  { key: NavKey; label: string; path: string; icon: React.ElementType }[]
+> = {
+  dashboard: [
+    {
+      key: "dashboard",
+      label: "Dashboard",
+      path: "",
+      icon: GridViewOutlinedIcon,
+    },
+    {
+      key: "catalog",
+      label: "Catalog",
+      path: "catalog",
+      icon: Inventory2OutlinedIcon,
+    },
+    {
+      key: "sales",
+      label: "Sales Report",
+      path: "sales-report",
+      icon: ReceiptLongOutlinedIcon,
+    },
+    {
+      key: "settings",
+      label: "Settings",
+      path: "settings",
+      icon: SettingsOutlinedIcon,
+    },
+  ],
+  cashier: [
+    {
+      key: "catalog",
+      label: "Catalog",
+      path: "catalog",
+      icon: Inventory2OutlinedIcon,
+    },
+    {
+      key: "sales",
+      label: "Sales Report",
+      path: "sales-report",
+      icon: ReceiptLongOutlinedIcon,
+    },
+    {
+      key: "settings",
+      label: "Settings",
+      path: "settings",
+      icon: SettingsOutlinedIcon,
+    },
+  ],
+};
 
-export default function Sidebar() {
+export default function Sidebar({ base: baseProp }: { base?: Base }) {
   const theme = useTheme();
   const pathname = usePathname();
+
+  const segs = pathname.split("?")[0].split("#")[0].split("/").filter(Boolean);
+  const inferredBase: Base = segs[0] === "cashier" ? "cashier" : "dashboard";
+  const base = baseProp || inferredBase;
+  const currentSub = segs[1] ?? "";
+
+  const items = config[base].map((it) => ({
+    ...it,
+    href: `/${base}${it.path ? `/${it.path}` : ""}`,
+    selected: currentSub === it.path,
+  }));
 
   return (
     <Box
@@ -87,14 +117,6 @@ export default function Sidebar() {
         P
       </Avatar>
 
-      <IconButton
-        size="small"
-        sx={{ mb: 3, border: "1px solid", borderColor: "divider" }}
-        onClick={() => {}}
-      >
-        <ArrowForwardIosRoundedIcon fontSize="small" />
-      </IconButton>
-
       <List
         disablePadding
         sx={{
@@ -106,12 +128,11 @@ export default function Sidebar() {
         }}
       >
         {items.map((it) => {
-          const selected = pathname === it.href;
           const Icon = it.icon;
           return (
             <Tooltip key={it.key} title={it.label} placement="right" arrow>
               <Box sx={{ position: "relative", width: 1 }}>
-                {selected && (
+                {it.selected && (
                   <Box
                     sx={{
                       position: "absolute",
@@ -129,7 +150,7 @@ export default function Sidebar() {
                 <ListItemButton
                   component={Link}
                   href={it.href}
-                  selected={selected}
+                  selected={it.selected}
                   sx={{
                     justifyContent: "center",
                     minHeight: 56,
@@ -140,7 +161,7 @@ export default function Sidebar() {
                   <Icon
                     sx={{
                       fontSize: 24,
-                      color: selected ? blue[500] : grey[300],
+                      color: it.selected ? blue[500] : grey[300],
                     }}
                   />
                 </ListItemButton>
