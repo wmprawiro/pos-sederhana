@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
         backgroundImage: 'url("/images/auth-bg.png")',
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center top",
       }}
     >
       <Box
