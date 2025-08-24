@@ -91,7 +91,7 @@ export default function RegisterPage() {
 
         <Typography variant="body2" sx={{ textAlign: "center" }}>
           Already have an account?{" "}
-          <Button component={Link} href="/login" size="small">
+          <Button component={Link} href="/auth/login" size="small">
             Login
           </Button>
         </Typography>

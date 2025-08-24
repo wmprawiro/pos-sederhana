@@ -60,7 +60,7 @@ export default function LoginPage() {
         <Box sx={{ textAlign: "right" }}>
           <Button
             component={Link}
-            href="/forgot-password"
+            href="/auth/forgot-password"
             variant="text"
             size="small"
           >
@@ -68,13 +68,18 @@ export default function LoginPage() {
           </Button>
         </Box>
 
-        <Button component={Link} href="/" variant="contained" size="large">
+        <Button
+          component={Link}
+          href="/cashier"
+          variant="contained"
+          size="large"
+        >
           Login
         </Button>
 
         <Typography variant="body2" sx={{ textAlign: "center" }}>
           Don’t have an account?{" "}
-          <Button component={Link} href="/register" size="small">
+          <Button component={Link} href="/auth/register" size="small">
             Register
           </Button>
         </Typography>

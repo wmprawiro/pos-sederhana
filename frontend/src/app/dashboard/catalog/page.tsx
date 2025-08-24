@@ -12,9 +12,9 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import MenuCard from "@/components/layout/menu/MenuCard";
+import MenuCard from "@/components/menu/MenuCard";
 import { Add, Close, Edit, Delete } from "@mui/icons-material";
-import UploadDropzone from "@/components/layout/menu/UploadDropzone";
+import UploadDropzone from "@/components/menu/UploadDropzone";
 
 type Menu = {
   id: number;
