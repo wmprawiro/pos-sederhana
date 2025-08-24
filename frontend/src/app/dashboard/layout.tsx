@@ -13,20 +13,33 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+    <Box sx={{ display: "flex", height: "100dvh", overflow: "hidden" }}>
       <Sidebar base="dashboard" />
       <Box
-        component="main"
+        component="main"  
         sx={{
           flexGrow: 1,
           ml: `${SIDEBAR_WIDTH}px`,
           display: "flex",
           flexDirection: "column",
-          minHeight: "100dvh",
+          height: "100dvh",
+          minWidth: 0,
         }}
       >
         <Topbar />
-        <Box sx={{ p: "20px", bgcolor: "grey.100", flex: 1 }}>{children}</Box>
+        <Box
+          sx={{
+            p: "20px",
+            bgcolor: "grey.100",
+            flex: 1,
+            minHeight: 0,
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );
