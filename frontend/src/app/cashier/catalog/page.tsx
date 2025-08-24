@@ -119,8 +119,13 @@ export default function CatalogCashierPage() {
     [orders]
   );
 
-  const tax = subtotal * 0.1;
+  const tax = Math.round(subtotal * 0.1);
   const total = subtotal + tax;
+
+  const canPay =
+    orders.length > 0 &&
+    customerName.trim() !== "" &&
+    (orderTab === 1 || (orderTab === 0 && tableNo.trim() !== ""));
 
   return (
     <>
@@ -272,6 +277,7 @@ export default function CatalogCashierPage() {
             onPay={() => {
               setOpenSuccess(true);
             }}
+            payDisabled={!canPay}
           />
         </Box>
       </Box>
@@ -288,8 +294,21 @@ export default function CatalogCashierPage() {
 
       <TransactionSuccessDialog
         open={openSuccess}
-        onClose={() => setOpenSuccess(false)}
-        onPrint={() => window.print()}
+        onClose={() => {
+          setOpenSuccess(false);
+          setOrders([]);
+          setCustomerName("");
+          setTableNo("");
+        }}
+        onPrint={() => {
+          window.print();
+          setTimeout(() => {
+            setOpenSuccess(false);
+            setOrders([]);
+            setCustomerName("");
+            setTableNo("");
+          }, 300);
+        }}
         orderNo="123456"
         orderDate={new Date()}
         customerName={customerName}

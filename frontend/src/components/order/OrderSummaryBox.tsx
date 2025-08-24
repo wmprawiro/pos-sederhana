@@ -7,6 +7,7 @@ type Props = {
   subtotal: number;
   taxRate?: number;
   onPay: () => void;
+  payDisabled?: boolean;
 };
 
 const money = (v: number) =>
@@ -20,6 +21,7 @@ export default function OrderSummaryBox({
   subtotal,
   taxRate = 0.1,
   onPay,
+  payDisabled,
 }: Props) {
   const tax = Math.round(subtotal * taxRate);
   const total = subtotal + tax;
@@ -66,7 +68,6 @@ export default function OrderSummaryBox({
               borderLeft: 0,
             }}
           />
-
           <Box
             sx={{
               position: "absolute",
@@ -115,6 +116,7 @@ export default function OrderSummaryBox({
         fullWidth
         sx={{ mt: 1.5 }}
         onClick={onPay}
+        disabled={!!payDisabled}
       >
         Pay
       </Button>
