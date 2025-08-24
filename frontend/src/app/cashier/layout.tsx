@@ -14,7 +14,7 @@ export default function AdminLayout({
 }) {
   return (
     <Box sx={{ display: "flex", height: "100dvh", overflow: "hidden" }}>
-      <Sidebar base="dashboard" />
+      <Sidebar base="cashier" />
       <Box
         component="main"
         sx={{

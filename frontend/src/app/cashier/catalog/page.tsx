@@ -16,6 +16,7 @@ import OrderItemRow, {
   OrderItem as OrderRowType,
 } from "@/components/order/OrderItemRow";
 import OrderSummaryBox from "@/components/order/OrderSummaryBox";
+import TransactionSuccessDialog from "@/components/order/TransactionSuccessDialog";
 
 type Menu = {
   id: number;
@@ -39,15 +40,13 @@ const mockMenus: Menu[] = Array.from({ length: 12 }).map((_, i) => ({
 export default function CatalogCashierPage() {
   const [q] = React.useState("");
   const [tab, setTab] = React.useState<0 | 1 | 2 | 3>(0);
-
   const [orderTab, setOrderTab] = React.useState<0 | 1>(1);
   const [customerName, setCustomerName] = React.useState("");
   const [tableNo, setTableNo] = React.useState<string>("");
-
   const [orders, setOrders] = React.useState<OrderRowType[]>([]);
-
   const [detailOpen, setDetailOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Menu | null>(null);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
 
   const filtered = mockMenus.filter((m) => {
     const matchTab =
@@ -98,18 +97,16 @@ export default function CatalogCashierPage() {
   const onDec = (it: OrderRowType) => {
     const target = orders.find((p) => p.id === it.id && p.note === it.note);
     if (!target) return;
-
     if (target.qty === 1) {
       const ok =
         typeof window !== "undefined" &&
         window.confirm("Hapus item ini dari order?");
-      if (!ok) return; // batalkan, tetap qty 1
+      if (!ok) return;
       setOrders((prev) =>
         prev.filter((p) => !(p.id === it.id && p.note === it.note))
       );
       return;
     }
-
     setOrders((prev) =>
       prev.map((p) =>
         p.id === it.id && p.note === it.note ? { ...p, qty: p.qty - 1 } : p
@@ -121,6 +118,9 @@ export default function CatalogCashierPage() {
     () => orders.reduce((s, it) => s + it.price * it.qty, 0),
     [orders]
   );
+
+  const tax = subtotal * 0.1;
+  const total = subtotal + tax;
 
   return (
     <>
@@ -265,17 +265,12 @@ export default function CatalogCashierPage() {
               )}
             </Stack>
           </Box>
+
           <OrderSummaryBox
             subtotal={subtotal}
             taxRate={0.1}
             onPay={() => {
-              console.log("pay clicked", {
-                customerName,
-                tableNo,
-                orderTab,
-                orders,
-                subtotal,
-              });
+              setOpenSuccess(true);
             }}
           />
         </Box>
@@ -289,6 +284,26 @@ export default function CatalogCashierPage() {
           addToOrders({ menu, qty, note });
           setDetailOpen(false);
         }}
+      />
+
+      <TransactionSuccessDialog
+        open={openSuccess}
+        onClose={() => setOpenSuccess(false)}
+        onPrint={() => window.print()}
+        orderNo="123456"
+        orderDate={new Date()}
+        customerName={customerName}
+        orderType={orderTab === 0 ? "Dine-in" : "Takeaway"}
+        tableName={orderTab === 0 && tableNo ? `No.Meja ${tableNo}` : undefined}
+        items={orders.map((o) => ({
+          name: o.name,
+          qty: o.qty,
+          price: o.price,
+          total: o.price * o.qty,
+        }))}
+        subtotal={subtotal}
+        tax={tax}
+        total={total}
       />
     </>
   );
