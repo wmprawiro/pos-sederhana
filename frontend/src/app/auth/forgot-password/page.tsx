@@ -103,7 +103,7 @@ export default function ForgotPasswordPage() {
             }}
           />
 
-          <Button variant="contained" size="large" href="/login">
+          <Button variant="contained" size="large" href="/auth/login">
             Reset Password
           </Button>
         </Stack>
