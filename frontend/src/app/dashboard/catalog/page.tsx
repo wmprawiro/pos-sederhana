@@ -13,7 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 import MenuCard from "@/components/menu/MenuCard";
-import { Add, Close, Edit, Delete } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import UploadDropzone from "@/components/menu/UploadDropzone";
 
 type Menu = {
